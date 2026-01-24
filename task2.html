@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html   lang ="en">
+<head>
+<meta charset ="UTF-8">
+<meta  name="viewport"    content="width=device-width, initial-scale=1.0">
+
+<title>Student Notes</title>
+
+<meta name ="description"  content ="A simple personal blog written using HTML5 and CSS">
+<meta name="keywords" content ="student blog personal learning web design">
+<meta name="author"  content ="Student">
+
+<link rel="preconnect" href ="https://fonts.googleapis.com">
+<link rel="preconnect" href ="https://fonts.gstatic.com" crossorigin>
+<link href ="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link   rel ="stylesheet"   href ="task2.css">
+</head>
+
+<body>
+
+<header  class ="head-zone">
+<h1>Student Notes</h1>
+<p><span class ="mark">Learning</span>   Practice   Growth</p>
+</header>
+
+<main class ="main-zone">
+
+<div  class ="post-box">
+<h2>Beginning With Web Design</h2>
+<span class ="time">January 2026</span>
+
+<p>
+During college I became curious about how websites work.
+Using <span class ="mark">HTML</span> and
+<span class ="mark">CSS</span> made it easier to understand layouts and styling.
+</p>
+</div>
+
+<div class ="post-box">
+<h2>Why Mobile Friendly Pages Matter</h2>
+<span class ="time">January 2026</span>
+
+<p>
+Most users visit websites from phones.
+Responsive design ensures content adjusts properly on all screen sizes.
+</p>
+</div>
+
+<div id ="disqus_thread"></div>
+
+</main>
+
+<footer class ="foot-zone">
+<p>© 2026  Student Notes Blog</p>
+</footer>
+
+<script>
+var disqus_config=function(){
+this.page.url=window.location.href;
+this.page.identifier="student-notes-blog"
+};
+(function(){
+var d=document,s=d.createElement('script');
+s.src='https://studentnotes36-netlify-app.disqus.com/embed.js';
+s.setAttribute('data-timestamp',+new Date());
+(d.head||d.body).appendChild(s)
+})();
+</script>
+
+</body>
+</html>
+
