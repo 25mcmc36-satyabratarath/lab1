@@ -1,0 +1,42 @@
+.top-area{
+background-color:#455a64;
+color:white;
+padding:28px
+}
+
+.items-box{
+display:flex;
+flex-wrap:wrap;
+gap:20px
+}
+
+.card-box{
+flex:1 1 210px;
+background-color:#ffffff;
+border:1px solid #bdbdbd;
+border-radius:8px;
+padding:14px;
+text-align:center
+}
+
+.side-panel{
+background-color:#eeeeee;
+padding:18px;
+border-radius:8px
+}
+
+.footer-box{
+background-color:#1a237e;
+color:white;
+text-align:center;
+padding:16px;
+margin-top:25px
+}
+
+@media (max-width:768px){
+.items-box{
+justify-content:center
+}
+}
+
+
