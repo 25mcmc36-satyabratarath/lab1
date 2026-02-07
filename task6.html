@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Task Manager</title>
+
+<style>
+body{
+font-family:Arial;
+background:#eef2f7;
+padding:30px
+}
+
+.box{
+max-width:500px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:8px
+}
+
+li{
+margin:6px 0;
+display:flex;
+justify-content:space-between
+}
+
+.done{
+text-decoration:line-through;
+color:gray
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Task List</h2>
+
+<input type="text" id="tname" placeholder="Task name">
+<input type="date" id="tdate">
+
+<button onclick="addTask()">Add</button>
+
+<ul id="list"></ul>
+
+</div>
+
+<script src="task6.js"></script>
+</body>
+</html>
