@@ -1,0 +1,30 @@
+body {
+    font-family: Arial;
+    padding: 20px;
+    background: #f4f6f9;
+}
+
+ul.tab-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    cursor: pointer;
+}
+
+ul.tab-links li {
+    padding: 10px 20px;
+    background: #ddd;
+    margin-right: 5px;
+}
+
+ul.tab-links li.active-tab {
+    background: #2c3e50;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    padding: 15px;
+    background: white;
+    border: 1px solid #ccc;
+}
