@@ -1,76 +1,144 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-    let libraryData = [];
+    let form = $("<form id='dynamicForm'></form>");
 
-    $.ajax({
-        url: "library.xml",
-        type: "GET",
-        dataType: "xml",
-        success: function(xml) {
+    // Build form from JSON
+    formStructure.fields.forEach(field => {
 
-            $(xml).find("book").each(function() {
+        let div = $("<div class='form-group'></div>");
+        div.append(`<label>${field.label}</label>`);
 
-                let book = {
-                    title: $(this).find("title").text(),
-                    author: $(this).find("author").text(),
-                    genre: $(this).find("genre").text(),
-                    price: parseFloat($(this).find("price").text()),
-                    publish_date: $(this).find("publish_date").text()
-                };
+        if (field.type === "select") {
 
-                libraryData.push(book);
+            let select = $(`<select id="${field.id}"></select>`);
+            select.append(`<option value="">Select</option>`);
+
+            field.options.forEach(opt => {
+                select.append(`<option value="${opt}">${opt}</option>`);
             });
 
-            populateFilters();
-            displayBooks(libraryData);
+            div.append(select);
+        }
+        else if (field.type === "radio") {
+
+            field.options.forEach(opt => {
+                div.append(`
+                    <input type="radio" name="${field.id}" value="${opt}"> ${opt}
+                `);
+            });
+        }
+        else {
+            div.append(`<input type="${field.type}" id="${field.id}">`);
+        }
+
+        div.append(`<div class="error" id="${field.id}Error"></div>`);
+
+        form.append(div);
+    });
+
+    form.append(`<div id="extraFields"></div>`);
+    form.append(`<button type="submit">Register</button>`);
+
+    $("#formContainer").append(form);
+
+    // Country Change Logic
+    $(document).on("change", "#country", function () {
+
+        $("#extraFields").empty();
+
+        if ($(this).val() === "USA") {
+            $("#extraFields").append(`
+                <div class="form-group">
+                    <label>State</label>
+                    <select id="state">
+                        <option value="">Select State</option>
+                        <option>California</option>
+                        <option>Texas</option>
+                        <option>New York</option>
+                    </select>
+                    <div class="error" id="stateError"></div>
+                </div>
+            `);
+        }
+
+        if ($(this).val() === "India") {
+            $("#extraFields").append(`
+                <div class="form-group">
+                    <label>State</label>
+                    <select id="state">
+                        <option value="">Select State</option>
+                        <option>Odisha</option>
+                        <option>Maharashtra</option>
+                        <option>Karnataka</option>
+                    </select>
+                    <div class="error" id="stateError"></div>
+                </div>
+            `);
         }
     });
 
-    function populateFilters() {
+    // Conditional Logic (User Type)
+    $(document).on("change", "input[name='usertype']", function () {
 
-        let genres = [...new Set(libraryData.map(b => b.genre))];
-        let authors = [...new Set(libraryData.map(b => b.author))];
-
-        genres.forEach(g => {
-            $("#genreSelect").append(`<option value="${g}">${g}</option>`);
-        });
-
-        authors.forEach(a => {
-            $("#authorSelect").append(`<option value="${a}">${a}</option>`);
-        });
-    }
-
-    function displayBooks(data) {
-
-        $("#libraryTable tbody").empty();
-
-        $.each(data, function(i, book) {
-            $("#libraryTable tbody").append(`
-                <tr>
-                    <td>${book.title}</td>
-                    <td>${book.author}</td>
-                    <td>${book.genre}</td>
-                    <td>${book.price}</td>
-                    <td>${book.publish_date}</td>
-                </tr>
+        if ($(this).val() === "Student") {
+            $("#extraFields").append(`
+                <div class="form-group" id="collegeField">
+                    <label>College Name</label>
+                    <input type="text" id="college">
+                    <div class="error" id="collegeError"></div>
+                </div>
             `);
-        });
-    }
+        } else {
+            $("#collegeField").remove();
+        }
+    });
 
-    $("#filterBtn").click(function() {
+    // Validation
+    $("#dynamicForm").submit(function (e) {
 
-        let selectedGenre = $("#genreSelect").val();
-        let selectedAuthor = $("#authorSelect").val();
-        let min = parseFloat($("#minPrice").val()) || 0;
-        let max = parseFloat($("#maxPrice").val()) || Infinity;
+        e.preventDefault();
+        $(".error").text("");
 
-        let filtered = libraryData.filter(book =>
-            (selectedGenre === "all" || book.genre === selectedGenre) &&
-            (selectedAuthor === "all" || book.author === selectedAuthor) &&
-            (book.price >= min && book.price <= max)
-        );
+        let valid = true;
 
-        displayBooks(filtered);
+        if ($("#fullname").val() === "") {
+            $("#fullnameError").text("Name is required");
+            valid = false;
+        }
+
+        if ($("#email").val() === "" || !$("#email").val().includes("@")) {
+            $("#emailError").text("Valid email required");
+            valid = false;
+        }
+
+        if ($("#password").val().length < 6) {
+            $("#passwordError").text("Password must be 6+ characters");
+            valid = false;
+        }
+
+        if ($("#country").val() === "") {
+            $("#countryError").text("Select a country");
+            valid = false;
+        }
+
+        if ($("#state").length && $("#state").val() === "") {
+            $("#stateError").text("Select a state");
+            valid = false;
+        }
+
+        if (!$("input[name='usertype']:checked").val()) {
+            $("#usertypeError").text("Select user type");
+            valid = false;
+        }
+
+        if ($("#college").length && $("#college").val() === "") {
+            $("#collegeError").text("College required");
+            valid = false;
+        }
+
+        if (valid) {
+            alert("Form Submitted Successfully!");
+        }
     });
 
 });
